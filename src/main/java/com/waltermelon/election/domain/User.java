@@ -1,5 +1,6 @@
 package com.waltermelon.election.domain;
 
+
 public class User {
     private int id;
 
@@ -11,6 +12,18 @@ public class User {
         this.id = id;
         this.email = email;
         this.username = username;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String toJson() {

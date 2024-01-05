@@ -1,6 +1,7 @@
 package com.waltermelon.election.application;
 
 import com.waltermelon.election.domain.User;
+import com.waltermelon.election.repository.UserRepository;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -13,7 +14,7 @@ public class UserServlet extends HttpServlet {
     private final UserController userController;
 
     public UserServlet() {
-        this.userController = new UserController();
+        this.userController = new UserController(new UserRepository());
     }
 
     @Override

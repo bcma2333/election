@@ -6,16 +6,11 @@ import com.waltermelon.election.repository.UserRepository;
 public class UserController {
     private final UserRepository userRepository;
 
-    public UserController() {
-        this.userRepository = new UserRepository();
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public User getUsers() {
         return userRepository.getUser();
-    }
-
-    public static void main(String[] args) {
-        User users = new UserController().getUsers();
-        System.out.println(users.toJson());
     }
 }
