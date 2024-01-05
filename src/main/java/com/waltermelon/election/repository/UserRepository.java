@@ -14,7 +14,11 @@ public class UserRepository {
     }
 
     public User getUser() {
-        String SELECT_USER_QUERY = "SELECT id, username, email FROM public.user";
+        String sql = "SELECT id, username, email FROM public.user";
+        return executeSQL(sql);
+    }
+
+    private User executeSQL(String SELECT_USER_QUERY) {
         try (ResultSet resultSet = connection.prepareStatement(SELECT_USER_QUERY).executeQuery()) {
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -23,7 +27,7 @@ public class UserRepository {
                 return new User(id, username, email);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ExceptionInInitializerError(e);
         }
         return null;
     }
