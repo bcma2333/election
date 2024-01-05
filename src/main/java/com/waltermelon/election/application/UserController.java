@@ -13,4 +13,16 @@ public class UserController {
     public User getUsers() {
         return userRepository.getUser();
     }
+
+    public void createUser(String id, String username, String email) {
+        User user = new User(Integer.parseInt(id), username, email);
+        userRepository.save(user);
+    }
+
+    public static void main(String[] args) {
+        UserController userController = new UserController(new UserRepository());
+        User user = userController.getUsers();
+        System.out.println(user.toJson());
+    }
+
 }
