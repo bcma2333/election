@@ -25,9 +25,9 @@ class UserControllerTest {
     void should_list_user() {
         // Given
         User user = new User(1, "walter", "walter@thoughtwors.com");
-        when(userRepository.getUser()).thenReturn(user);
+        when(userRepository.getUser(1)).thenReturn(user);
         // When
-        User result = userController.getUsers();
+        User result = userController.getUsers(1);
         // Then
         Assertions.assertEquals(user.getId(), result.getId());
         Assertions.assertEquals(user.getUsername(), result.getUsername());

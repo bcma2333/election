@@ -14,9 +14,9 @@ public class UserRepository {
         connection = DatabaseConnection.getConnection();
     }
 
-    public User getUser() {
-        String sql = "SELECT id, username, email FROM public.user";
-        return executeQuerySQL(sql);
+    public User getUser(Integer id) {
+        String sql = "SELECT id, username, email FROM public.user where id = ?";
+        return executeQuerySQL(sql, id);
     }
 
     public boolean save(User user) {
@@ -24,8 +24,11 @@ public class UserRepository {
         return executeUpdateSQL(sql, user);
     }
 
-    private User executeQuerySQL(String sql) {
-        try (ResultSet resultSet = connection.prepareStatement(sql).executeQuery()) {
+    private User executeQuerySQL(String sql, Integer userId) {
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");

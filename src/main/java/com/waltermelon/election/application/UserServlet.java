@@ -22,9 +22,9 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
-        System.out.println(request.getPathTranslated());
+        String id = request.getParameter("id");
         PrintWriter out = response.getWriter();
-        User user = userController.getUsers();
+        User user = userController.getUsers(Integer.valueOf(id));
         if (user != null) {
             out.write(user.toJson());
         } else {

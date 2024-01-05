@@ -10,8 +10,8 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    public User getUsers() {
-        return userRepository.getUser();
+    public User getUsers(Integer id) {
+        return userRepository.getUser(id);
     }
 
     public void createUser(String id, String username, String email) {
@@ -21,7 +21,7 @@ public class UserController {
 
     public static void main(String[] args) {
         UserController userController = new UserController(new UserRepository());
-        User user = userController.getUsers();
+        User user = userController.getUsers(1);
         System.out.println(user.toJson());
     }
 
