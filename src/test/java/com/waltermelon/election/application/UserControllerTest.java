@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class UserControllerTest {
@@ -29,5 +32,17 @@ class UserControllerTest {
         Assertions.assertEquals(user.getId(), result.getId());
         Assertions.assertEquals(user.getUsername(), result.getUsername());
         Assertions.assertEquals(user.getEmail(), result.getEmail());
+    }
+
+    @Test
+    void should_create_user() {
+        // Given
+        int id = 2;
+        String username = "johnson";
+        String email = "johnson@163.com";
+        // When
+        userController.createUser(String.valueOf(id), username, email);
+        // Then
+        verify(userRepository, times(1)).save(any());
     }
 }
