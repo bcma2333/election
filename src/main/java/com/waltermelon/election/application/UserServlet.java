@@ -19,16 +19,33 @@ public class UserServlet extends HttpServlet {
         this.userController = new UserController(new UserRepository());
     }
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+
         String id = request.getParameter("id");
+        System.out.println(String.format("There is a request, request userId: %s", id));
         PrintWriter out = response.getWriter();
-        User user = userController.getUsers(Integer.valueOf(id));
-        if (user != null) {
-            out.write(user.toJson());
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        try {
+            User user = userController.getUsers(Integer.valueOf(id));
+            if (user != null) {
+                getServletContext().log("This is a custom log message");
+                response.setStatus(HttpServletResponse.SC_OK);
+                out.write(user.toJson());
+            } else {
+                getServletContext().log("No matching data in repository.");
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (Exception e) {
+            getServletContext().log("meet a exception when access repository");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.getStackTrace();
         }
         out.close();
     }
@@ -39,12 +56,17 @@ public class UserServlet extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         try {
-            userController.createUser(id, username, email);
+            boolean isSucceeded = userController.createUser(id, username, email);
+            if (isSucceeded) {
+                System.out.println("successfully get data from repository!");
+                response.setStatus(HttpServletResponse.SC_CREATED);
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             e.getStackTrace();
         }
-        response.getWriter().println("you are posting info to Servlet");
 
+        response.getWriter().println("you are posting info to Servlet");
     }
 }

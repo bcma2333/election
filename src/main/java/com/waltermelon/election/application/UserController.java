@@ -14,9 +14,9 @@ public class UserController {
         return userRepository.getUser(id);
     }
 
-    public void createUser(String id, String username, String email) {
+    public boolean createUser(String id, String username, String email) {
         User user = new User(Integer.parseInt(id), username, email);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public static void main(String[] args) {

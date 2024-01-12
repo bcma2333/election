@@ -2,19 +2,45 @@ version: '3'
 
 services:
   # Tomcat service
-  app:
+  back-end:
     image: tomcat:10.1
     ports:
       - "8080:8080"
-    env_file: .env
+    container_name: spring-server
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: r0ys1ngh4m
     volumes:
       - ./build/libs/election-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/app.war
     depends_on:
       - postgres
+    networks:
+      react-spring:
+#         ipv4_address: 192.168.20.21
 
   # PostgreSQL service
   postgres:
     image: postgres:latest
-    env_file: .env
+    container_name: postgres-database
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: r0ys1ngh4m
     ports:
-      - "5432:5432"
+      - "5434:5432"
+    networks:
+      react-spring:
+
+
+networks:
+  react-spring:
+    external: true
+#    driver: bridge
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 192.168.20.0/24
+

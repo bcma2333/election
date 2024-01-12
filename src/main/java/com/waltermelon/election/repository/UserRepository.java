@@ -25,7 +25,6 @@ public class UserRepository {
     }
 
     private User executeQuerySQL(String sql, Integer userId) {
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -35,8 +34,9 @@ public class UserRepository {
                 String email = resultSet.getString("email");
                 return new User(id, username, email);
             }
-        } catch (SQLException e) {
-            throw new ExceptionInInitializerError(e);
+            resultSet.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -48,15 +48,10 @@ public class UserRepository {
             preparedStatement.setString(3, user.getEmail());
 
             int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                return Boolean.TRUE;
-            } else {
-                throw new IllegalArgumentException();
-            }
+            if (rowsAffected > 0) return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace(); // Handle the exception appropriately in your application
         }
-
         return Boolean.FALSE;
     }
 }
