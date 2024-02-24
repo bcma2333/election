@@ -1,28 +1,30 @@
 package com.waltermelon.election.application;
 
-import com.waltermelon.election.domain.User;
-import com.waltermelon.election.repository.UserRepository;
+import com.waltermelon.election.domain.UserService;
+import com.waltermelon.election.domain.model.User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/user")
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    public User getUsers(Integer id) {
-        return userRepository.getUser(id);
+    @GetMapping("/{id}")
+    public User getUsers(@PathVariable(value = "id") Long id) {
+        return userService.getUser(id);
     }
 
-    public boolean createUser(String id, String username, String email) {
-        User user = new User(Integer.parseInt(id), username, email);
-        return userRepository.save(user);
+    @PostMapping
+    public boolean createUser(Long id, String username, String email) {
+        User user = new User(id, username, email);
+        return userService.save(user);
     }
-
-    public static void main(String[] args) {
-        UserController userController = new UserController(new UserRepository());
-        User user = userController.getUsers(1);
-        System.out.println(user.toJson());
-    }
-
 }

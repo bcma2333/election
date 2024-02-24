@@ -22,15 +22,15 @@ services:
 #         ipv4_address: 192.168.20.21
 
   # PostgreSQL service
-  postgres:
-    image: postgres:latest
-    container_name: postgres-database
+  mysql:
+    image: mysql:latest
+    container_name: mysql-election
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: r0ys1ngh4m
+      MYSQL_DB: election
+      MYSQL_USER: root
+      MYSQL_PASSWORD: r0ys1ngh4m
     ports:
-      - "5434:5432"
+      - "3306:3306"
     networks:
       react-spring:
 

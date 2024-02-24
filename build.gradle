@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
     id 'war'
 }
 
@@ -26,10 +25,22 @@ repositories {
 dependencies {
     // spring web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // mapstruct
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    // Annotation
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     // database
     implementation 'org.postgresql:postgresql:42.2.27'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1'
+
+    // flyway
+    implementation 'org.flywaydb:flyway-core:9.22.3'
 
     // test
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'

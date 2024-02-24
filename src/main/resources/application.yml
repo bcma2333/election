@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: r0ys1ngh4m
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  flyway:
+    enabled: true
+    encoding: UTF-8
+    locations: classpath:db/migration
+    schemas: public
+    baselineOnMigrate: true
+    validate-on-migrate: true
+    sqlMigrationPrefix: V
+    sqlMigrationSeparator: __
+    sql-migration-suffixes: .sql
